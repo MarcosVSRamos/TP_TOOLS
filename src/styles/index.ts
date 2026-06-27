@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import variaveis from './variaveis'
 import { Link } from 'react-router-dom'
 import fundo from '../assets/images/fundo6.png'
-import fundo2 from '../assets/images/fundo1.png'
+import fundo2 from '../assets/images/fundo2.png'
 
 const EstiloGlobal = createGlobalStyle`
   * {
