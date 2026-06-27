@@ -18,7 +18,6 @@ export const ButtonContainer = styled.div`
     margin: 0 auto;
     cursor: pointer;
     font-size: 26px;
-    font-weight: bold;
     border-radius: 6px;
     background-color: ${variaveis.corDeFundo};
   }

@@ -19,8 +19,6 @@ const EstiloGlobal = createGlobalStyle`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  top: 24px;
-  overflow-y:hidden;
 
   @media (max-width: 768px) {
     background-image: url(${fundo2});
@@ -32,7 +30,6 @@ const EstiloGlobal = createGlobalStyle`
   #root{
     width:100%;
     height:100%;
-    overflow-x:hidden;
   }
 
 
