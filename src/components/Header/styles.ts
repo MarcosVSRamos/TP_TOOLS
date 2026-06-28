@@ -10,7 +10,7 @@ export const HeaderContainer = styled.div`
   padding-bottom: 16px;
   border-bottom: 1px solid ${variaveis.corDeFundo};
 
-  h1 {
+  h2 {
     width: 100%;
     height: 100%;
     color: ${variaveis.textoSecundario};
@@ -20,7 +20,7 @@ export const HeaderContainer = styled.div`
   @media (max-width: 768px) {
     max-width: 100%;
     padding-bottom: 8px;
-    h1 {
+    h2 {
       font-size: 18px;
     }
   }

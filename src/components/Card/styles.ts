@@ -9,14 +9,14 @@ export const CardContainer = styled.div`
   margin: 0 auto;
   width: 70%;
   max-width: 660px;
-  min-height: 500px;
+  min-height: 300px;
+  max-height: 660px;
   padding: 56px;
   border-radius: 16px;
   border: 2px solid black;
   background-color: ${variaveis.corDeFundoCard};
 
   header {
-    margin-top: 16px;
     h1 {
       text-color: ${variaveis.textoPrincipal};
     }
@@ -36,7 +36,6 @@ export const DivCard = styled.div`
 export const DivHeader = styled.div`
   displa: flex;
   justify-content: center;
-  margin-bottom: 48px;
 `
 
 export const MiddleSection = styled.div`
@@ -52,7 +51,6 @@ export const DivResult = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin: 24px auto 0;
 
   @media (max-width: 768px) {
     margin-top: 0px;

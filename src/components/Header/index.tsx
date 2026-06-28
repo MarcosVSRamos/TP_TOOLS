@@ -3,7 +3,7 @@ import { HeaderContainer } from './styles'
 const Header = () => {
   return (
     <HeaderContainer>
-      <h1>CALCULADORA ANTT</h1>
+      <h2>CALCULADORA ANTT</h2>
     </HeaderContainer>
   )
 }

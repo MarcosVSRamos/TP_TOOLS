@@ -7,6 +7,7 @@ export const ButtonContainer = styled.div`
   text-align: center;
   justify-content: center;
   border-radius: 6px;
+  padding: 1px 0;
   cursor: pointer;
   background-color: ${variaveis.corDeFundo};
 
@@ -17,7 +18,7 @@ export const ButtonContainer = styled.div`
     border: none;
     margin: 0 auto;
     cursor: pointer;
-    font-size: 26px;
+    font-size: 16px;
     border-radius: 6px;
     background-color: ${variaveis.corDeFundo};
   }

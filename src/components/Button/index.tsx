@@ -2,12 +2,13 @@ import { ButtonContainer } from './styles'
 
 type Props = {
   onClick: () => void
+  nomeButtom: string
 }
 
-const Button = ({ onClick }: Props) => {
+const Button = ({ onClick, nomeButtom }: Props) => {
   return (
     <ButtonContainer>
-      <button onClick={onClick}>Calcular Tarifa</button>
+      <button onClick={onClick}>{nomeButtom}</button>
     </ButtonContainer>
   )
 }

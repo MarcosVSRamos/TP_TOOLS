@@ -35,7 +35,7 @@ const Card = () => {
         </DivHeader>
         <MiddleSection>
           <Input value={km} onChange={(e) => setKm(e.target.value)} />
-          <Button onClick={calcular} />
+          <Button onClick={calcular} nomeButtom="Calcular Tarifa" />
         </MiddleSection>
         <DivResult>
           {resultado.map((item) => (
