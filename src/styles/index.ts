@@ -17,6 +17,7 @@ const EstiloGlobal = createGlobalStyle`
   body{
   background-image: url(${fundo});
   background-size: cover;
+  overscroll-behavior: none;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
