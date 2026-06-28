@@ -6,13 +6,17 @@ export const ButtonContainer = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
+  height: 32px;
   border-radius: 6px;
-  padding: 1px 0;
+  margin-bottom: 18px;
   cursor: pointer;
-  background-color: ${variaveis.corDeFundo};
 
   button {
-    display: block;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
     height: 100%;
     border: none;
@@ -20,6 +24,19 @@ export const ButtonContainer = styled.div`
     cursor: pointer;
     font-size: 16px;
     border-radius: 6px;
-    background-color: ${variaveis.corDeFundo};
+    color: ${variaveis.textoPrincipal};
+    background-color: ${variaveis.corAmarelaParaFundo};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.49);
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0px auto;
+    margin-bottom: 16px;
+    height: 28px;
+
+    input {
+      font-size: 12px;
+    }
 `

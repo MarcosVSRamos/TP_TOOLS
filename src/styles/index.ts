@@ -19,6 +19,7 @@ const EstiloGlobal = createGlobalStyle`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 
   @media (max-width: 768px) {
     background-image: url(${fundo2});

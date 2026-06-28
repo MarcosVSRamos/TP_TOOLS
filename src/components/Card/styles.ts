@@ -7,14 +7,18 @@ export const CardContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
+  margin-bottom: 90px;
+  margin-top: 40px;
   width: 70%;
   max-width: 660px;
   min-height: 300px;
   max-height: 660px;
   padding: 56px;
   border-radius: 16px;
-  border: 2px solid black;
   background-color: ${variaveis.corDeFundoCard};
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
 
   header {
     h1 {
@@ -24,7 +28,7 @@ export const CardContainer = styled.div`
 
   @media (max-width: 768px) {
     min-height: 300px;
-    width: 90%;
+    width: 93%;
     padding: 32px;
   }
 `

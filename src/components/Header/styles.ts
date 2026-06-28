@@ -8,13 +8,26 @@ export const HeaderContainer = styled.div`
   text-align: center;
   margin: 0 auto;
   padding-bottom: 16px;
-  border-bottom: 1px solid ${variaveis.corDeFundo};
+  border-bottom: 2px solid ${variaveis.corAmarela};
+
+  .icon {
+    margin-right: 12px;
+    padding: 6px 7px 4px 7px;
+    border-radius: 6px;
+    color: ${variaveis.corAmarela};
+    background-color: ${variaveis.corDeFundoCard};
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+  }
 
   h2 {
-    width: 100%;
-    height: 100%;
-    color: ${variaveis.textoSecundario};
+    color: ${variaveis.textoPrincipal};
     font-weight: 900;
+
+    span {
+      color: ${variaveis.corAmarela};
+    }
   }
 
   @media (max-width: 768px) {
