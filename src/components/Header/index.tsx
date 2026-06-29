@@ -1,5 +1,4 @@
 import { HeaderContainer } from './styles'
-import { FaCalculator } from 'react-icons/fa'
 
 type Props = {
   inconeHeader: React.ReactNode

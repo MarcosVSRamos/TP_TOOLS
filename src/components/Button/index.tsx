@@ -1,5 +1,4 @@
 import { ButtonContainer } from './styles'
-import { FaCalculator } from 'react-icons/fa'
 
 type Props = {
   onClick: () => void
