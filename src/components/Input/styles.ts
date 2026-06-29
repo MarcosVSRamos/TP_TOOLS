@@ -14,7 +14,6 @@ export const InputContainer = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    border: none;
     border-radius: 6px;
     margin: 0 auto;
     text-align: center;

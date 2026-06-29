@@ -1,22 +1,13 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import EstiloGlobal, { MainContainer } from './styles'
-
-import Home from './pages/Home'
 import Footer from './components/Footer'
-
-const rotas = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />
-  }
-])
+import AppRoutes from './routes'
+import EstiloGlobal, { MainContainer } from './styles'
 
 function App() {
   return (
     <>
       <MainContainer>
         <EstiloGlobal />
-        <RouterProvider router={rotas} />
+        <AppRoutes />
       </MainContainer>
       <Footer />
     </>

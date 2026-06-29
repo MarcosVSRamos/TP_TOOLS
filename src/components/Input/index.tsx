@@ -3,16 +3,18 @@ import { InputContainer } from './styles'
 type Props = {
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  type: string
+  placeholder: string
 }
 
-const Input = ({ value, onChange }: Props) => {
+const Input = ({ value, onChange, type, placeholder }: Props) => {
   return (
     <InputContainer>
       <input
         value={value}
         onChange={onChange}
-        type="number"
-        placeholder="Digite a distância em Km"
+        type={type}
+        placeholder={placeholder}
       />
     </InputContainer>
   )

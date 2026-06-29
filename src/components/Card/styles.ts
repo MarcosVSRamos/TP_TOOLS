@@ -7,7 +7,7 @@ export const CardContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
-  margin-bottom: 90px;
+  margin-bottom: 20px;
   margin-top: 40px;
   width: 70%;
   max-width: 660px;
@@ -59,4 +59,20 @@ export const DivResult = styled.div`
   @media (max-width: 768px) {
     margin-top: 0px;
   }
+`
+export const DivGeral = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+export const BotaoRetorno = styled.button`
+  display: flex;
+  margin: 0 auto;
+  background-color: rgba(34, 51, 68, 0);
+  border: none;
+  cursor: pointer;
+  margin-bottom: 40px;
+  font-size: 20px;
+  font-weight: bold;
 `

@@ -4,14 +4,15 @@ import { FaCalculator } from 'react-icons/fa'
 type Props = {
   onClick: () => void
   nomeButtom: string
+  icon: React.ReactNode
 }
 
-const Button = ({ onClick, nomeButtom }: Props) => {
+const Button = ({ onClick, nomeButtom, icon }: Props) => {
   return (
     <ButtonContainer>
       <button onClick={onClick}>
         <>
-          <FaCalculator />
+          {icon}
           <p>{nomeButtom}</p>
         </>
       </button>
