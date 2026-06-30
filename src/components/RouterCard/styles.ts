@@ -4,7 +4,7 @@ import variaveis from '../../styles/variaveis'
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   margin: 0 auto;
   margin-bottom: 20px;
@@ -40,6 +40,7 @@ export const CardContainer = styled.div`
     margin-top: 28px;
     font-size: 12px;
     margin-bottom: 8px;
+    margin-left: 14px;
 
     @media (max-width: 768px) {
       text-align: center;
@@ -53,17 +54,17 @@ export const CardContainer = styled.div`
 
 export const DivGeral = styled.div`
   display: block;
-  algin itens: center;
+  algin itens: stretch;
   width: 100%;
 
 `
 
 export const DivInputs = styled.div`
   display: flex;
-  gap: 26px;
+  justify-content: space-around;
 
   input {
-    width: 230px;
+    width: 260px;
     font-size: 14px;
   }
 
@@ -78,6 +79,7 @@ export const DivAcordeons = styled.div`
   align-items: center;
   border-radius: 8px;
   cursor: pointer;
+  z-index: 1000;
 
   span {
     margin-left: 8px;
@@ -93,7 +95,6 @@ export const DivAcordeons = styled.div`
     background-color: black;
     width: 110px;
     text-align: center;
-    z-index: 10;
 
     li {
       padding: 2px 10px;
@@ -161,11 +162,13 @@ export const DivMap = styled.div`
   margin: 18px 0;
   font-size: 12px;
   height: 300px;
-  z-index: -1;
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
+  overflow: hidden;
+  position: relative;
+  display: block;
 `
 
 export const DetalhesCard = styled.div`

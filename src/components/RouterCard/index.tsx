@@ -1,6 +1,12 @@
-import Button from '../Button'
-import { CardContainer } from './styles'
-import Header from '../Header'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { buscarCidade } from '../../services/geocoding'
+import { buscarRota } from '../../services/routes'
+import { RouteResult } from '../../types/RouteResult'
+import { ResultadoFrete } from '../../types/Frete'
+import { Cidade } from '../../types/Cidade'
+
 import {
   FaAngleDown,
   FaAngleUp,
@@ -11,8 +17,13 @@ import {
   FaRoad,
   FaWeightHanging
 } from 'react-icons/fa'
+
+import Header from '../Header'
 import Input from '../Input'
-import { useState } from 'react'
+import Button from '../Button'
+import Map from '../Map'
+
+import { CardContainer } from './styles'
 import { DivGeral } from './styles'
 import { DivInputs } from './styles'
 import { DivAcordeons } from './styles'
@@ -20,13 +31,43 @@ import { DivMap } from './styles'
 import { BotaoRetorno } from './styles'
 import { DivDetalhes } from './styles'
 import { DetalhesCard } from './styles'
-import { useNavigate } from 'react-router-dom'
+import { LatLng, LatLngExpression } from 'leaflet'
+import { calcularFrete } from '../../services/calcularFrete'
+import { calcularPedagio } from '../../services/calcularPedagio'
+
+type ResultadoFreteLocal = ResultadoFrete & {
+  valorPorTonelada?: number
+}
 
 const RouterCard = () => {
+  const navigate = useNavigate()
+
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenVeicle, setIsOpenVeicle] = useState(false)
+
   const [selectedRoute, setSelectedRoute] = useState('Selecione a rota')
   const [selectedVeicle, setSelectedVeicle] = useState('Tipo de veículo')
+
+  const [origem, setOrigem] = useState('')
+  const [destino, setDestino] = useState('')
+
+  const [origemCoords, setOrigemCoords] = useState<Cidade | null>(null)
+  const [destinoCoords, setDestinoCoords] = useState<Cidade | null>(null)
+
+  const [rota, setRota] = useState<RouteResult | null>(null)
+  const [resultado, setResultado] = useState<ResultadoFreteLocal | null>(null)
+
+  const rotas = ['Rota Rápida', 'Menor Distância', 'Recomendada']
+
+  const preferencias = {
+    'Rota Rápida': 'fastest',
+    'Menor Distância': 'shortest',
+    Recomendada: 'recommended'
+  } as const
+
+  const veiculos = ['Ls 6 eixos', 'Bitrem 7 eixos', 'Rodotrem 9 eixos']
+
+  //Funções Acordeons
 
   const selecionarRota = (rota: string) => {
     setSelectedRoute(rota)
@@ -38,9 +79,139 @@ const RouterCard = () => {
     setIsOpenVeicle(false)
   }
 
-  const rotas = ['Rota Rápida', 'Rota Média', 'Rota Longa']
-  const veiculos = ['Ls 6 eixos', 'Bitrem 7 eixos', 'Rodotrem 9 eixos']
-  const navigate = useNavigate()
+  const calcularResultadoFrete = (km: number, veiculo: string) => {
+    const tabela = calcularFrete(km)
+
+    const capacidadeSelecionada = peso(veiculo)
+
+    const item = tabela.find((t) => t.capacidade === capacidadeSelecionada)
+
+    if (!item) return null
+
+    const valorPorTonelada =
+      capacidadeSelecionada > 0 ? item.valorTotal / capacidadeSelecionada : 0
+
+    return {
+      ...item,
+      valorPorTonelada
+    }
+  }
+
+  const origemLeaflet: LatLngExpression | null = origemCoords
+    ? [origemCoords.lat, origemCoords.lon]
+    : null
+
+  const destinoLeaflet: LatLngExpression | null = destinoCoords
+    ? [destinoCoords.lat, destinoCoords.lon]
+    : null
+
+  const rotaLeaflet: LatLngExpression[] | null = rota
+    ? rota.geometry.map(([lon, lat]) => [lat, lon])
+    : null
+
+  //Funcões Inputs
+
+  const handleOrigemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOrigem(e.target.value)
+  }
+
+  const handleDestinoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDestino(e.target.value)
+  }
+
+  const calcularRota = async (origemCidade: Cidade, destinoCidade: Cidade) => {
+    const resultadoRota = await buscarRota(
+      origemCidade,
+      destinoCidade,
+      preferencias[selectedRoute as keyof typeof preferencias]
+    )
+
+    const distanciaKm = Math.ceil(resultadoRota.distancia)
+
+    setRota({
+      ...resultadoRota,
+      distancia: distanciaKm
+    })
+
+    const frete = calcularResultadoFrete(distanciaKm, selectedVeicle)
+
+    setResultado(frete)
+  }
+
+  const handleCalcular = async () => {
+    try {
+      let origemCidade = origemCoords
+      let destinoCidade = destinoCoords
+
+      if (!origemCidade || !destinoCidade) {
+        origemCidade = await buscarCidade(origem)
+        destinoCidade = await buscarCidade(destino)
+
+        setOrigemCoords(origemCidade)
+        setDestinoCoords(destinoCidade)
+      }
+
+      await calcularRota(origemCidade, destinoCidade)
+    } catch (erro) {
+      console.error(erro)
+    }
+  }
+
+  //Resultados Da Rota
+
+  const getEixos = () => {
+    if (selectedVeicle === 'Ls 6 eixos') return 6
+    if (selectedVeicle === 'Bitrem 7 eixos') return 7
+    return 9
+  }
+
+  const peso = (veiculo: string) => {
+    switch (veiculo) {
+      case 'Ls 6 eixos':
+        return 32
+
+      case 'Bitrem 7 eixos':
+        return 37
+
+      case 'Rodotrem 9 eixos':
+        return 48
+
+      default:
+        return 0
+    }
+  }
+
+  //Interação com o mapa
+
+  const handleMapClick = async (latlng: LatLng) => {
+    const ponto: Cidade = {
+      lat: latlng.lat,
+      lon: latlng.lng,
+      nome: ''
+    }
+
+    if (!origemCoords) {
+      setOrigemCoords(ponto)
+      return
+    }
+
+    if (!destinoCoords) {
+      setDestinoCoords(ponto)
+
+      await calcularRota(origemCoords, ponto)
+
+      return
+    }
+
+    setOrigemCoords(ponto)
+    setDestinoCoords(null)
+    setRota(null)
+    setResultado(null)
+  }
+
+  //Calculos de Pedágio
+
+  const pedagio = calcularPedagio(selectedRoute, getEixos())
 
   return (
     <DivGeral>
@@ -58,16 +229,16 @@ const RouterCard = () => {
           </div>
           <DivInputs>
             <Input
-              onChange={() => console.log('Opa')}
+              onChange={handleOrigemChange}
               placeholder="Local de origem"
               type="text"
-              value=""
+              value={origem}
             />
             <Input
-              onChange={() => console.log('Opa')}
+              onChange={handleDestinoChange}
               placeholder="Destino final"
               type="text"
-              value=""
+              value={destino}
             />
           </DivInputs>
           <DivAcordeons className="card-base">
@@ -130,14 +301,17 @@ const RouterCard = () => {
               <Button
                 icon={<FaMapMarkedAlt />}
                 nomeButtom="CALCULAR ROTA"
-                onClick={() => {
-                  console.log('opa')
-                }}
+                onClick={handleCalcular}
               />
             </div>
           </DivAcordeons>
           <DivMap className="card-base">
-            <h1>Atualização em desenvolvimento...</h1>
+            <Map
+              origem={origemLeaflet}
+              destino={destinoLeaflet}
+              rota={rotaLeaflet}
+              onMapClick={handleMapClick}
+            />
           </DivMap>
           <div>
             <h4 className="titulo-de-resumo">RESUMO DA ROTA</h4>
@@ -148,7 +322,7 @@ const RouterCard = () => {
                 </span>
                 <div>
                   <h5>DISTÂNCIA</h5>
-                  <p>1.284 km</p>
+                  <p>{rota?.distancia ?? 0} km</p>
                 </div>
               </DivDetalhes>
               <DivDetalhes className="card-base">
@@ -157,7 +331,7 @@ const RouterCard = () => {
                 </span>
                 <div>
                   <h5>PEDÁGIO</h5>
-                  <p>R$1.286,13</p>
+                  <p>INDISPONÍVEL</p>
                 </div>
               </DivDetalhes>
               <DivDetalhes className="card-base">
@@ -166,7 +340,15 @@ const RouterCard = () => {
                 </span>
                 <div>
                   <h5>FRETE</h5>
-                  <p>R$14.765,98</p>
+                  <p>
+                    R$
+                    {resultado?.valorTotal
+                      ? resultado.valorTotal.toLocaleString('pt-BR', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        })
+                      : '0,00'}
+                  </p>
                 </div>
               </DivDetalhes>
               <DivDetalhes className="card-base">
@@ -174,8 +356,16 @@ const RouterCard = () => {
                   <FaWeightHanging size={28} />
                 </span>
                 <div>
-                  <h5>/TON + PED</h5>
-                  <p>R$305,43</p>
+                  <h5>/TON</h5>
+                  <p>
+                    R$
+                    {resultado?.valorPorTonelada
+                      ? resultado.valorPorTonelada.toLocaleString('pt-BR', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        })
+                      : '0,00'}
+                  </p>
                 </div>
               </DivDetalhes>
             </DetalhesCard>
