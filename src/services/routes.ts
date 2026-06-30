@@ -8,12 +8,16 @@ export async function buscarRota(
   destino: Cidade,
   tipoRota: string
 ): Promise<RouteResult> {
+  if (!API_KEY) {
+    throw new Error('REACT_APP_ORS_API_KEY não definida')
+  }
+
   const response = await fetch(
     'https://api.openrouteservice.org/v2/directions/driving-hgv/geojson',
     {
       method: 'POST',
       headers: {
-        Authorization: API_KEY!,
+        Authorization: API_KEY,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -31,8 +35,6 @@ export async function buscarRota(
   }
 
   const data = await response.json()
-
-  console.log(data)
 
   const rota = data.features[0]
 
