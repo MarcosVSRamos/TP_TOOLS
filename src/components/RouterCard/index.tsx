@@ -33,7 +33,6 @@ import { DivDetalhes } from './styles'
 import { DetalhesCard } from './styles'
 import { LatLng, LatLngExpression } from 'leaflet'
 import { calcularFrete } from '../../services/calcularFrete'
-import { calcularPedagio } from '../../services/calcularPedagio'
 
 type ResultadoFreteLocal = ResultadoFrete & {
   valorPorTonelada?: number
@@ -159,11 +158,11 @@ const RouterCard = () => {
 
   //Resultados Da Rota
 
-  const getEixos = () => {
-    if (selectedVeicle === 'Ls 6 eixos') return 6
-    if (selectedVeicle === 'Bitrem 7 eixos') return 7
-    return 9
-  }
+  // const getEixos = () => {
+  //   if (selectedVeicle === 'Ls 6 eixos') return 6
+  //   if (selectedVeicle === 'Bitrem 7 eixos') return 7
+  //   return 9
+  // }
 
   const peso = (veiculo: string) => {
     switch (veiculo) {
@@ -211,7 +210,7 @@ const RouterCard = () => {
 
   //Calculos de Pedágio
 
-  const pedagio = calcularPedagio(selectedRoute, getEixos())
+  //const pedagio = calcularPedagio(selectedRoute, getEixos())
 
   return (
     <DivGeral>
