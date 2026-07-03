@@ -112,10 +112,20 @@ const RouterCard = () => {
 
   const handleOrigemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrigem(e.target.value)
+
+    setOrigemCoords(null)
+    setDestinoCoords(null)
+    setRota(null)
+    setResultado(null)
   }
 
   const handleDestinoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDestino(e.target.value)
+
+    setOrigemCoords(null)
+    setDestinoCoords(null)
+    setRota(null)
+    setResultado(null)
   }
 
   const calcularRota = async (origemCidade: Cidade, destinoCidade: Cidade) => {

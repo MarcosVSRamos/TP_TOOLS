@@ -67,7 +67,7 @@ export const DivGeral = styled.div`
 `
 
 export const BotaoRetorno = styled.button`
-  display: flex;
+  display: none;
   margin: 0 auto;
   background-color: rgba(34, 51, 68, 0);
   border: none;

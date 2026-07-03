@@ -25,7 +25,8 @@ export async function buscarRota(
           [origem.lon, origem.lat],
           [destino.lon, destino.lat]
         ],
-        preference: tipoRota
+        preference: tipoRota,
+        geometry_simplify: false
       })
     }
   )
@@ -37,6 +38,11 @@ export async function buscarRota(
   const data = await response.json()
 
   const rota = data.features[0]
+
+  console.log(rota.properties.summary)
+  console.log(rota.properties.segments)
+
+  console.log(rota.properties)
 
   return {
     distancia: rota.properties.summary.distance / 1000,
